@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe TwilioEndpoint do
-  let(:config)  { { "twilio.account_sid" => 'ABC',
-                    "twilio.auth_token" => 'ABC',
-                    "twilio.phone_from" => twilio_phone_from,
-                    'twilio.address_type' => 'billing' } }
+  let(:config)  { { "twilio_account_sid" => 'ABC',
+                    "twilio_auth_token" => 'ABC',
+                    "twilio_phone_from" => twilio_phone_from,
+                    'twilio_address_type' => 'billing' } }
 
   let(:twilio_phone_from) { '+55123' }
   let(:customer_phone) { '+55321' }
@@ -32,12 +32,10 @@ describe TwilioEndpoint do
                to: customer_phone,
                body: body)
 
-          post '/sms_order', request.to_json, auth
+        post '/sms_order', request.to_json, auth
 
-
-          expect(last_response).to be_ok
-
-          expect(json_response['summary'].first).to eq ("SMS confirmation sent to #{customer_phone}")
+        expect(last_response).to be_ok
+        expect(json_response[:summary]).to eq ("SMS confirmation sent to #{customer_phone}")
       end
     end
 
@@ -50,11 +48,10 @@ describe TwilioEndpoint do
                to: customer_phone,
                body: body)
 
-          post '/sms_cancel', request.to_json, auth
+        post '/sms_cancel', request.to_json, auth
 
-          expect(last_response).to be_ok
-
-          expect(json_response['summary'].first).to eq ("SMS confirmation sent to #{customer_phone}")
+        expect(last_response).to be_ok
+        expect(json_response['summary']).to eq ("SMS confirmation sent to #{customer_phone}")
       end
     end
   end
@@ -78,11 +75,10 @@ describe TwilioEndpoint do
                to: customer_phone,
                body: body)
 
-          post '/sms_ship', request.to_json, auth
+        post '/sms_ship', request.to_json, auth
 
-          expect(last_response).to be_ok
-
-          expect(json_response['summary'].first).to eq ("SMS confirmation sent to #{customer_phone}")
+        expect(last_response).to be_ok
+        expect(json_response['summary']).to eq ("SMS confirmation sent to #{customer_phone}")
       end
     end
   end

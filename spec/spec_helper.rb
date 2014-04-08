@@ -19,4 +19,3 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include Spree::TestingSupport::Controllers
 end
-

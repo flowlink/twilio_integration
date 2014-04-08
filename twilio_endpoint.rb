@@ -10,7 +10,7 @@ class TwilioEndpoint < EndpointBase::Sinatra::Base
     begin
       code   = 200
       order  = Order.new(@config, @payload['order'])
-      client = Twilio::REST::Client.new(@config['twilio.account_sid'], @config['twilio.auth_token'])
+      client = Twilio::REST::Client.new(@config['twilio_account_sid'], @config['twilio_auth_token'])
       body   = "Hey #{order.customer_name}! Your order #{order.number} has been received."
 
       set_summary "SMS confirmation sent to #{order.customer_phone}"
@@ -27,11 +27,11 @@ class TwilioEndpoint < EndpointBase::Sinatra::Base
   post '/sms_ship' do
     begin
       code     = 200
-      shipment = @payload['shipment']['number']
-      order    = @payload['shipment']['order_number']
+      shipment = @payload['shipment']['number'] || @payload['shipment']['id']
+      order    = @payload['shipment']['order_id'] || @payload['shipment']['order_number']
       name     = @payload['shipment']['shipping_address']['firstname']
       phone    = @payload['shipment']['shipping_address']['phone']
-      client   = Twilio::REST::Client.new(@config['twilio.account_sid'], @config['twilio.auth_token'])
+      client   = Twilio::REST::Client.new(@config['twilio_account_sid'], @config['twilio_auth_token'])
       body     = "Hey #{name}! Your shipment \##{shipment} for order \##{order} has shipped."
 
       set_summary "SMS confirmation sent to #{phone}"
@@ -49,7 +49,7 @@ class TwilioEndpoint < EndpointBase::Sinatra::Base
     begin
       code   = 200
       order  = Order.new(@config, @payload['order'])
-      client = Twilio::REST::Client.new(@config['twilio.account_sid'], @config['twilio.auth_token'])
+      client = Twilio::REST::Client.new(@config['twilio_account_sid'], @config['twilio_auth_token'])
       body   = "Hey #{order.customer_name}! Your order #{order.number} has been canceled."
 
       set_summary "SMS confirmation sent to #{order.customer_phone}"
