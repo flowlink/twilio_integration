@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+gem 'sinatra'
+gem 'tilt', '~> 1.4.1'
+gem 'tilt-jbuilder', require: 'sinatra/jbuilder'
+
 group :production do
   gem 'foreman'
   gem 'unicorn'
@@ -7,7 +11,7 @@ end
 
 gem 'twilio-ruby'
 
-gem 'endpoint_base', :github => 'spree/endpoint_base', branch: 'master'
+gem 'endpoint_base', github: 'spree/endpoint_base'
 
 group :development, :test do
   gem 'pry'
@@ -24,4 +28,3 @@ group :test do
   gem 'rack-test'
   gem 'timecop'
 end
-

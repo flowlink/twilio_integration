@@ -1,6 +1,7 @@
-require 'uri'
-Dir['./lib/**/*.rb'].each &method(:require)
+require "sinatra"
+require "endpoint_base"
 
+Dir['./lib/**/*.rb'].each &method(:require)
 
 class TwilioEndpoint < EndpointBase::Sinatra::Base
   set :logging, true
