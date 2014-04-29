@@ -10,6 +10,7 @@ group :production do
 end
 
 gem 'twilio-ruby'
+gem 'honeybadger'
 
 gem 'endpoint_base', github: 'spree/endpoint_base'
 
