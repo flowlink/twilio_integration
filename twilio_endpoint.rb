@@ -11,9 +11,18 @@ class TwilioEndpoint < EndpointBase::Sinatra::Base
     config.environment_name = ENV['RACK_ENV']
   end
 
+  post '/send_sms' do
+    body    = @payload['sms']['message']
+    phone   = @payload['sms']['phone']
+
+    message = Message.new(@config, body, phone)
+    message.deliver
+
+    result 200, "SMS #{body} sent to #{phone}"
+  end
+
   post '/sms_order' do
     order  = Order.new(@config, @payload['order'])
-    client = Twilio::REST::Client.new(@config['twilio_account_sid'], @config['twilio_auth_token'])
     body   = "Hey #{order.customer_name}! Your order #{order.number} has been received."
 
     message = Message.new(@config, body, order.customer_phone)
@@ -27,7 +36,6 @@ class TwilioEndpoint < EndpointBase::Sinatra::Base
     order    = @payload['shipment']['order_id'] || @payload['shipment']['order_number']
     name     = @payload['shipment']['shipping_address']['firstname']
     phone    = @payload['shipment']['shipping_address']['phone']
-    client   = Twilio::REST::Client.new(@config['twilio_account_sid'], @config['twilio_auth_token'])
     body     = "Hey #{name}! Your shipment \##{shipment} for order \##{order} has shipped."
 
     message = Message.new(@config, body, phone)
@@ -38,7 +46,6 @@ class TwilioEndpoint < EndpointBase::Sinatra::Base
 
   post '/sms_cancel' do
     order  = Order.new(@config, @payload['order'])
-    client = Twilio::REST::Client.new(@config['twilio_account_sid'], @config['twilio_auth_token'])
     body   = "Hey #{order.customer_name}! Your order #{order.number} has been canceled."
 
     message = Message.new(@config, body, order.customer_phone)

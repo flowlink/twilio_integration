@@ -16,6 +16,30 @@ describe TwilioEndpoint do
     Twilio::REST::Client.stub(:new).with('ABC', 'ABC').and_return(client)
   end
 
+  context 'when sms' do
+    let(:sms) do
+      { message: 'Howdy!', phone: customer_phone }
+    end
+
+    let(:request) { { request_id: '1234567',
+                      sms: sms,
+                      parameters: config } }
+
+    describe '/send_sms' do
+      it 'sends an sms' do
+        expect(client).to receive(:create).
+          with(from: twilio_phone_from,
+               to: customer_phone,
+               body: 'Howdy!')
+
+        post '/send_sms', request.to_json, auth
+
+        expect(last_response).to be_ok
+        expect(json_response[:summary]).to eq ("SMS Howdy! sent to #{customer_phone}")
+      end
+    end
+  end
+
   context 'when order' do
     let(:order)   { { id: order_number, billing_address: { firstname: customer_name,
                                                                phone: customer_phone } } }
