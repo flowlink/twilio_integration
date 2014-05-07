@@ -14,8 +14,9 @@ class TwilioEndpoint < EndpointBase::Sinatra::Base
   post '/send_sms' do
     body    = @payload['sms']['message']
     phone   = @payload['sms']['phone']
+    from    = @payload['sms']['from']
 
-    message = Message.new(@config, body, phone)
+    message = Message.new(@config, body, phone, from)
     message.deliver
 
     result 200, "SMS #{body} sent to #{phone}"

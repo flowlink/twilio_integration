@@ -8,6 +8,7 @@ describe TwilioEndpoint do
 
   let(:twilio_phone_from) { '+55123' }
   let(:customer_phone) { '+55321' }
+  let(:alt_phone)      { '+5512341234' }
   let(:customer_name)  { 'Pablo' }
   let(:order_number)   { 'RN123456' }
   let(:client)         { double('Twilio client').as_null_object }
@@ -18,7 +19,7 @@ describe TwilioEndpoint do
 
   context 'when sms' do
     let(:sms) do
-      { message: 'Howdy!', phone: customer_phone }
+      { message: 'Howdy!', phone: customer_phone, from: alt_phone }
     end
 
     let(:request) { { request_id: '1234567',
@@ -28,7 +29,7 @@ describe TwilioEndpoint do
     describe '/send_sms' do
       it 'sends an sms' do
         expect(client).to receive(:create).
-          with(from: twilio_phone_from,
+          with(from: alt_phone,
                to: customer_phone,
                body: 'Howdy!')
 
