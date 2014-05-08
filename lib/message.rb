@@ -1,10 +1,9 @@
 class Message
-  def initialize(config, message_text, phone_number, from = nil)
+  def initialize(config, message_text, phone_number, from)
     @client = Twilio::REST::Client.new(config['twilio_account_sid'], config['twilio_auth_token'])
-    @config = config
     @message_text = message_text
     @phone_number = phone_number
-    @from = from || @config['twilio_phone_from']
+    @from = from
   end
 
   def deliver
