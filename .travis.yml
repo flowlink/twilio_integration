@@ -1,0 +1,20 @@
+bundler_args: --without development
+script:
+  - 'SPEC_ALL=true bundle exec rspec'
+
+notifications:
+  email:
+    - brian@spreecommerce.com
+    - pablo@spreecommerce.com
+    - bruno@spreecommerce.com
+    - jdyer@spreecommerce.com
+    - wes@spreecommerce.com
+    - andrei@spreecommerce.com
+    - reinaldo@spreecommerce.com
+  slack: spreecommerce:6qFvZMx2thuNZoWD8yKssHd1
+
+branches:
+  only:
+    - master
+rvm:
+  - 2.0.0
