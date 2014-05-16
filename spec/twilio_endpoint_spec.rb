@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe TwilioEndpoint do
-  let(:config)  { { "twilio_account_sid" => 'ABC',
-                    "twilio_auth_token" => 'ABC' } }
+  let(:config)  { { 'twilio_account_sid' => 'ABC', 'twilio_auth_token' => 'ABC' } }
 
   let(:customer_phone) { '+55321' }
   let(:alt_phone)      { '+5512341234' }
@@ -12,7 +11,7 @@ describe TwilioEndpoint do
     Twilio::REST::Client.stub(:new).with('ABC', 'ABC').and_return(client)
   end
 
-  context 'when sms' do
+  context 'when SMS' do
     let(:sms) do
       { message: 'Howdy!', phone: customer_phone, from: alt_phone }
     end
@@ -22,16 +21,16 @@ describe TwilioEndpoint do
                       parameters: config } }
 
     describe '/send_sms' do
-      it 'sends an sms' do
+      it 'sends a SMS' do
         expect(client).to receive(:create).
           with(from: alt_phone,
                to: customer_phone,
                body: 'Howdy!')
 
-        post '/send_sms', request.to_json, auth
+          post '/send_sms', request.to_json, auth
 
-        expect(last_response).to be_ok
-        expect(json_response[:summary]).to eq ("SMS Howdy! sent to #{customer_phone}")
+          expect(last_response).to be_ok
+          expect(json_response[:summary]).to eq %{SMS "Howdy!" sent to #{customer_phone}}
       end
     end
   end

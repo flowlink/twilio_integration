@@ -1,5 +1,5 @@
-require "sinatra"
-require "endpoint_base"
+require 'sinatra'
+require 'endpoint_base'
 
 Dir['./lib/**/*.rb'].each &method(:require)
 
@@ -19,6 +19,6 @@ class TwilioEndpoint < EndpointBase::Sinatra::Base
     message = Message.new(@config, body, phone, from)
     message.deliver
 
-    result 200, "SMS #{body} sent to #{phone}"
+    result 200, %{SMS "#{body}" sent to #{phone}}
   end
 end
