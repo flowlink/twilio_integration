@@ -3,6 +3,11 @@
 This is a fully hosted and supported integration for use with the [Wombat](http://wombat.co) product. With this integration you can perform the following functions:
 
 * Send SMS over regular phone numbers and short codes.
+* Order confirmation texts any time a customer places a new order or updates an order on the storefront.
+* Shipment tracking updates
+* Customer notifications
+* Account verification messages
+
 
 And you're done! For every new order created event a sms will be sent to the user.
 
