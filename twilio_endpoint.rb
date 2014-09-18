@@ -5,6 +5,11 @@ Dir['./lib/**/*.rb'].each &method(:require)
 
 class TwilioEndpoint < EndpointBase::Sinatra::Base
   set :logging, true
+  set :show_exceptions, false
+
+  error do
+    result 500, env['sinatra.error'].message
+  end
 
   Honeybadger.configure do |config|
     config.api_key = ENV['HONEYBADGER_KEY']

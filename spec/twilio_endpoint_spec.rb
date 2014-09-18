@@ -32,6 +32,17 @@ describe TwilioEndpoint do
           expect(last_response).to be_ok
           expect(json_response[:summary]).to eq %{SMS "Howdy!" sent to #{customer_phone}}
       end
+
+      context 'something went wrong!' do
+        it 'returns the exception in the summary key' do
+          expect(client).to receive(:create).and_raise StandardError.new "Booom!"
+
+          post '/send_sms', request.to_json, auth
+
+          expect(last_response.status).to eq 500
+          expect(json_response[:summary]).to eq "Booom!"
+        end
+      end
     end
   end
 end
